@@ -1,5 +1,0 @@
-comp halfAdder(aValue, bValue)(carryOut, result) {
-    carryOut = aValue and bValue;
-    result = aValue xor bValue;
-
-}
