@@ -14,28 +14,24 @@ class Token:
 class Scanner:
     def __init__(self, code: TextIOWrapper) -> None:
         self.code = code # The code to be analyzed
-        self.currentLine = code.readline() # Contains the current line analyzed
+        self.currentLine = self.getLine() # Contains the current line analyzed
         self.currentLineCounter = 1 # Indicates the current line number analyzed. is used in error messages
         self.index = 0 # Point to the current char analyzed in the code
 
-    def nextLine(self):
-        self.currentLine = self.code.readline()
-        self.currentLineCounter += 1
-        self.index = 0
+    def getLine(self):
+        line = self.code.readline()
+        
+        if line == '':
+            return '\0'
+        else:
+            return line
 
     def advance(self): # Increment the index to the next char
         if self.index < len(self.currentLine) - 1: # If the index is not the last char in the line, increment it
             self.index += 1
         
-        else: # Else, read the next line
-            line = self.code.readline()
-
-            if line == '': # If the next line is empty, add the EOF marker
-                self.currentLine = '\0'
-                self.currentLineCounter += 1
-                self.index = 0
-            else: # Else, update the current line and reset the index
-                self.currentLine = line
+        else: # Else update the current line, increment line counter and reset the index to the beginning of the new line
+                self.currentLine = self.getLine()
                 self.currentLineCounter += 1
                 self.index = 0
 
